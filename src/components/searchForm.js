@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Table } from 'flowbite-react';
+import { Card } from 'flowbite-react';
 
 function SearchForm() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -22,86 +22,112 @@ function SearchForm() {
   };
 
   return (
-    <form onSubmit={(e) => e.preventDefault()}>
-      <label
-        htmlFor='default-search'
-        className='mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white'
-      >
-        Search
-      </label>
-      <div className='relative'>
-        <div className='absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none'>
-          <svg
-            className='w-4 h-4 text-gray-500 dark:text-gray-400'
-            aria-hidden='true'
-            xmlns='http://www.w3.org/2000/svg'
-            fill='none'
-            viewBox='0 0 20 20'
-          >
-            <path
-              stroke='currentColor'
-              strokeLinecap='round'
-              strokeLinejoin='round'
-              strokeWidth='2'
-              d='m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z'
+    <div className='bg-sky-950 w-full h-screen m-0 p-0 bg-repeat'>
+      <div className='flex justify-center items-center font-normal text-white  text-md  w-full py-6 text-lg'>
+        Search for Materials
+      </div>
+      <div className='flex justify-center'>
+        <div className='relative w-2/4 content-center '>
+          <h1 className='flex justify-center items-center text-3xl font-bold tracking-tight text-white mt-[50px]'>
+            Which Material detail are you looking for?
+          </h1>
+          <div className='flex items-center mt-8'>
+            <input
+              type='search'
+              id='default-search'
+              className='block w-full p-5 ps-10 text-lg text-gray-900 border border-gray-300 rounded-full bg-gray-50 focus:ring-sky-500 focus:border-sky-500 backdrop-blur-md'
+              placeholder='Search for Materials...'
+              required
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
             />
-          </svg>
+            <button
+              type='submit'
+              className='text-white absolute end-2.5 bottom-2.5 bg-sky-700 hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-full text-md px-7 py-3  '
+              onClick={handleSearch}
+            >
+              Search
+            </button>
+          </div>
         </div>
-        <input
-          type='search'
-          id='default-search'
-          className='block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-          placeholder='Search for Materials...'
-          required
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-        <button
-          type='submit'
-          className='text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
-          onClick={handleSearch}
-        >
-          Search
-        </button>
       </div>
-      <div className='overflow-x-auto mt-4'>
-        {searchResults.length > 0 && (
-          <Table>
-            <Table.Head>
-              <Table.HeadCell>Material ID</Table.HeadCell>
-              <Table.HeadCell>Material FullName</Table.HeadCell>
-              <Table.HeadCell>Brand Title</Table.HeadCell>
-              <Table.HeadCell>Manufacturer Title</Table.HeadCell>
-              <Table.HeadCell>CAS</Table.HeadCell>
-              <Table.HeadCell>GHG</Table.HeadCell>
-              <Table.HeadCell>Energy Input</Table.HeadCell>
-              <Table.HeadCell>EU Regulation</Table.HeadCell>
-              <Table.HeadCell>Supply Risk</Table.HeadCell>
-              <Table.HeadCell>Critical Value</Table.HeadCell>
-            </Table.Head>
-
-            <Table.Body className='divide-y'>
-              {searchResults.map((product) => (
-                <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800'>
-                  <Table.Cell className='whitespace-nowrap font-medium text-gray-900 dark:text-white'>
-                    {materialId}
-                  </Table.Cell>
-                  <Table.Cell>{materialFullName}</Table.Cell>
-                  <Table.Cell>{product.brandTitle}</Table.Cell>
-                  <Table.Cell>{product.manufacturerTitle}</Table.Cell>
-                  <Table.Cell>{product.cas}</Table.Cell>
-                  <Table.Cell>{product.ghg}</Table.Cell>
-                  <Table.Cell>{product.energyInput}</Table.Cell>
-                  <Table.Cell>{product.euRegulation}</Table.Cell>
-                  <Table.Cell>{product.supplyRisk}</Table.Cell>
-                  <Table.Cell>{product.criticalValue}</Table.Cell>
-                </Table.Row>
-              ))}
-            </Table.Body>
-          </Table>
-        )}
+      <div className='flex justify-center mt-4'>
+        {searchResults.map((product) => (
+          <div className='grid grid-cols-3 grid-flow-dense gap-3 mt-4 w-2/4 justify-items-center '>
+            <Card className='w-full col-span-3  flex flex-col justify-center '>
+              <div className='bg-gradient-to-r from-sky-500 to-sky-800 w-full text-center py-4 rounded-md'>
+                <h5 className='text-xl font-bold tracking-tight text-white'>
+                  Material ID
+                </h5>
+              </div>
+              <p className='font-bold text-gray-700 flex justify-center items-center'>
+                {materialId}
+              </p>
+            </Card>
+            <Card className='w-full  flex flex-col justify-center'>
+              <div className='bg-gradient-to-r from-sky-500 to-sky-800 w-full text-center py-4 rounded-md'>
+                <h5 className='text-xl font-bold tracking-tight text-white'>
+                  Material
+                </h5>
+              </div>
+              <p className='font-bold text-gray-700 flex justify-center items-center '>
+                {materialFullName}
+              </p>
+            </Card>
+            <Card className='w-full  flex flex-col justify-center'>
+              <div className='bg-gradient-to-r from-sky-500 to-sky-800 w-full text-center py-4 rounded-md'>
+                <h5 className='text-xl font-bold tracking-tight text-white'>
+                  Brand
+                </h5>
+              </div>
+              <p className='font-bold text-gray-700 flex justify-center items-center'>
+                {product.brandTitle}
+              </p>
+            </Card>
+            <Card className='w-full  flex flex-col justify-center'>
+              <div className='bg-gradient-to-r from-sky-500 to-sky-800 w-full text-center py-4 rounded-md'>
+                <h5 className='text-xl font-bold tracking-tight text-white'>
+                  Manufacturer
+                </h5>
+              </div>
+              <p className='font-bold text-gray-700 flex justify-center items-center'>
+                {product.manufacturerTitle}
+              </p>
+            </Card>
+            <Card className='w-full  flex flex-col justify-center'>
+              <div className='bg-gradient-to-r from-sky-500 to-sky-800 w-full text-center py-4 rounded-md'>
+                <h5 className='text-xl font-bold tracking-tight text-white'>
+                  CAS
+                </h5>
+              </div>
+              <p className='font-bold text-gray-700 flex justify-center items-center'>
+                {product.cas}
+              </p>
+            </Card>
+            <Card className='w-full  flex flex-col justify-center'>
+              <div className='bg-gradient-to-r from-sky-500 to-sky-800 w-full text-center py-4 rounded-md'>
+                <h5 className='text-xl font-bold tracking-tight text-white'>
+                  GHG
+                </h5>
+              </div>
+              <p className='font-bold text-gray-700 flex justify-center items-center'>
+                {product.ghg}
+              </p>
+            </Card>
+            <Card className='w-full  flex flex-col justify-center'>
+              <div className='bg-gradient-to-r from-sky-500 to-sky-800 w-full text-center py-4 rounded-md'>
+                <h5 className='text-xl font-bold tracking-tight text-white'>
+                  Energy Input
+                </h5>
+              </div>
+              <p className='font-bold text-gray-700 flex justify-center items-center'>
+                {product.energyInput}
+              </p>
+            </Card>
+          </div>
+        ))}
       </div>
-    </form>
+    </div>
   );
 }
 
