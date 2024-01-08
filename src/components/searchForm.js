@@ -7,16 +7,23 @@ function SearchForm() {
   const [searchResults, setSearchResults] = useState([]);
   const [materialId, setMaterialId] = useState(null);
   const [materialFullName, setMaterialFullName] = useState('');
+  const [isNotFound, setIsNotFound] = useState(false);
 
   const handleSearch = async () => {
     try {
       const response = await axios.get(
         `http://localhost:5174/api/materials/${searchTerm}`,
       );
-      setSearchResults(response.data.products);
-      setMaterialId(response.data.id);
-      setMaterialFullName(response.data.fullName);
+      if (response.data.products.length === 0) {
+        setIsNotFound(true);
+      } else {
+        setIsNotFound(false);
+        setSearchResults(response.data.products);
+        setMaterialId(response.data.id);
+        setMaterialFullName(response.data.fullName);
+      }
     } catch (error) {
+      setIsNotFound(true);
       console.error('Failed to fetch data', error);
     }
   };
@@ -52,80 +59,89 @@ function SearchForm() {
         </div>
       </div>
       <div className='flex justify-center mt-4'>
-        {searchResults.map((product) => (
-          <div className='grid grid-cols-3 grid-flow-dense gap-3 mt-4 w-2/4 justify-items-center '>
-            <Card className='w-full col-span-3  flex flex-col justify-center '>
-              <div className='bg-gradient-to-r from-sky-500 to-sky-800 w-full text-center py-4 rounded-md'>
-                <h5 className='text-xl font-bold tracking-tight text-white'>
-                  Material ID
-                </h5>
-              </div>
-              <p className='font-bold text-gray-700 flex justify-center items-center'>
-                {materialId}
-              </p>
-            </Card>
-            <Card className='w-full  flex flex-col justify-center'>
-              <div className='bg-gradient-to-r from-sky-500 to-sky-800 w-full text-center py-4 rounded-md'>
-                <h5 className='text-xl font-bold tracking-tight text-white'>
-                  Material
-                </h5>
-              </div>
-              <p className='font-bold text-gray-700 flex justify-center items-center '>
-                {materialFullName}
-              </p>
-            </Card>
-            <Card className='w-full  flex flex-col justify-center'>
-              <div className='bg-gradient-to-r from-sky-500 to-sky-800 w-full text-center py-4 rounded-md'>
-                <h5 className='text-xl font-bold tracking-tight text-white'>
-                  Brand
-                </h5>
-              </div>
-              <p className='font-bold text-gray-700 flex justify-center items-center'>
-                {product.brandTitle}
-              </p>
-            </Card>
-            <Card className='w-full  flex flex-col justify-center'>
-              <div className='bg-gradient-to-r from-sky-500 to-sky-800 w-full text-center py-4 rounded-md'>
-                <h5 className='text-xl font-bold tracking-tight text-white'>
-                  Manufacturer
-                </h5>
-              </div>
-              <p className='font-bold text-gray-700 flex justify-center items-center'>
-                {product.manufacturerTitle}
-              </p>
-            </Card>
-            <Card className='w-full  flex flex-col justify-center'>
-              <div className='bg-gradient-to-r from-sky-500 to-sky-800 w-full text-center py-4 rounded-md'>
-                <h5 className='text-xl font-bold tracking-tight text-white'>
-                  CAS
-                </h5>
-              </div>
-              <p className='font-bold text-gray-700 flex justify-center items-center'>
-                {product.cas}
-              </p>
-            </Card>
-            <Card className='w-full  flex flex-col justify-center'>
-              <div className='bg-gradient-to-r from-sky-500 to-sky-800 w-full text-center py-4 rounded-md'>
-                <h5 className='text-xl font-bold tracking-tight text-white'>
-                  GHG
-                </h5>
-              </div>
-              <p className='font-bold text-gray-700 flex justify-center items-center'>
-                {product.ghg}
-              </p>
-            </Card>
-            <Card className='w-full  flex flex-col justify-center'>
-              <div className='bg-gradient-to-r from-sky-500 to-sky-800 w-full text-center py-4 rounded-md'>
-                <h5 className='text-xl font-bold tracking-tight text-white'>
-                  Energy Input
-                </h5>
-              </div>
-              <p className='font-bold text-gray-700 flex justify-center items-center'>
-                {product.energyInput}
-              </p>
-            </Card>
+        {isNotFound ? (
+          <div className='flex justify-center items-center font-normal text-white  text-md  w-full py-6 text-lg'>
+            No results found
           </div>
-        ))}
+        ) : (
+          searchResults.map((product, idx) => (
+            <div
+              className='grid grid-cols-3 grid-flow-dense gap-3 mt-4 w-2/4 justify-items-center '
+              key={idx}
+            >
+              <Card className='w-full col-span-3  flex flex-col justify-center '>
+                <div className='bg-gradient-to-r from-sky-500 to-sky-800 w-full text-center py-4 rounded-md'>
+                  <h5 className='text-xl font-bold tracking-tight text-white'>
+                    Material ID
+                  </h5>
+                </div>
+                <p className='font-bold text-gray-700 flex justify-center items-center'>
+                  {materialId}
+                </p>
+              </Card>
+              <Card className='w-full  flex flex-col justify-center'>
+                <div className='bg-gradient-to-r from-sky-500 to-sky-800 w-full text-center py-4 rounded-md'>
+                  <h5 className='text-xl font-bold tracking-tight text-white'>
+                    Material
+                  </h5>
+                </div>
+                <p className='font-bold text-gray-700 flex justify-center items-center '>
+                  {materialFullName}
+                </p>
+              </Card>
+              <Card className='w-full  flex flex-col justify-center'>
+                <div className='bg-gradient-to-r from-sky-500 to-sky-800 w-full text-center py-4 rounded-md'>
+                  <h5 className='text-xl font-bold tracking-tight text-white'>
+                    Brand
+                  </h5>
+                </div>
+                <p className='font-bold text-gray-700 flex justify-center items-center'>
+                  {product.brandTitle}
+                </p>
+              </Card>
+              <Card className='w-full  flex flex-col justify-center'>
+                <div className='bg-gradient-to-r from-sky-500 to-sky-800 w-full text-center py-4 rounded-md'>
+                  <h5 className='text-xl font-bold tracking-tight text-white'>
+                    Manufacturer
+                  </h5>
+                </div>
+                <p className='font-bold text-gray-700 flex justify-center items-center'>
+                  {product.manufacturerTitle}
+                </p>
+              </Card>
+              <Card className='w-full  flex flex-col justify-center'>
+                <div className='bg-gradient-to-r from-sky-500 to-sky-800 w-full text-center py-4 rounded-md'>
+                  <h5 className='text-xl font-bold tracking-tight text-white'>
+                    CAS
+                  </h5>
+                </div>
+                <p className='font-bold text-gray-700 flex justify-center items-center'>
+                  {product.cas}
+                </p>
+              </Card>
+              <Card className='w-full  flex flex-col justify-center'>
+                <div className='bg-gradient-to-r from-sky-500 to-sky-800 w-full text-center py-4 rounded-md'>
+                  <h5 className='text-xl font-bold tracking-tight text-white'>
+                    GHG
+                  </h5>
+                </div>
+                <p className='font-bold text-gray-700 flex justify-center items-center'>
+                  {product.ghg}
+                </p>
+              </Card>
+              <Card className='w-full  flex flex-col justify-center'>
+                <div className='bg-gradient-to-r from-sky-500 to-sky-800 w-full text-center py-4 rounded-md'>
+                  <h5 className='text-xl font-bold tracking-tight text-white'>
+                    Energy Input
+                  </h5>
+                </div>
+                <p className='font-bold text-gray-700 flex justify-center items-center'>
+                  {product.energyInput}
+                </p>
+              </Card>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );
