@@ -30,12 +30,12 @@ function SearchForm() {
 
   return (
     <div className='bg-sky-950 w-full h-screen m-0 p-0 bg-repeat'>
-      <div className='flex justify-center items-center font-normal text-white  text-md  w-full py-6 text-lg'>
+      <div className='flex justify-center items-center font-normal text-white  text-md  w-full py-12 text-lg tracking-widest'>
         Search for Materials
       </div>
       <div className='flex justify-center'>
         <div className='relative w-2/4 content-center '>
-          <h1 className='flex justify-center items-center text-3xl font-bold tracking-tight text-white mt-[50px]'>
+          <h1 className='flex justify-center items-center text-3xl font-bold tracking-tight text-white'>
             Which Material detail are you looking for?
           </h1>
           <div className='flex items-center mt-8'>
