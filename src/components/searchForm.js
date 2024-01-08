@@ -61,7 +61,7 @@ function SearchForm() {
       <div className='flex justify-center mt-4'>
         {isNotFound ? (
           <div className='flex justify-center items-center font-normal text-white  text-md  w-full py-6 text-lg'>
-            No results found
+            No results found!
           </div>
         ) : (
           searchResults.map((product, idx) => (
